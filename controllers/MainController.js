@@ -8,7 +8,7 @@
 
         index(req, res){
             const Todo = req.models.Todo
-            Todo.find({}, (err, todos) => {
+            Todo.find({username: req.session.username}, (err, todos) => {
                 if(err){
                 res.status(400).send(err)
                 }else{
@@ -24,11 +24,12 @@
         create(req, res){
             const Todo = req.models.Todo
             req.body.completed = false
+            req.body.username = req.session.username
             Todo.create(req.body, (err, todo) => {
                 if(err){
                     res.status(400).send(err)
                 }else{
-                    res.redirect('/')
+                    res.redirect('todo')
                 }
             })
         }
@@ -52,7 +53,7 @@
                     if(err){
                         res.status(400).send(err)
                     }else{
-                        res.redirect('/')
+                        res.redirect('todo')
                     }
                 })
             }
@@ -64,7 +65,7 @@
                 if(err){
                     res.status(400).send(err)
                 }else{
-                    res.redirect('/')
+                    res.redirect('todo')
                 }
             })
         }
